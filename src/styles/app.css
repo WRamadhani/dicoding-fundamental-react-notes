@@ -24,7 +24,7 @@ body {
 }
 
 #root {
-    max-width: 1280px;
+    max-width: 986px;
     height: 100%;
     margin: 0 auto;
     display: grid;
@@ -67,8 +67,9 @@ header {
 main {
     grid-area: main;
     justify-self: center;
+    display: flex;
+    flex-direction: column;
     margin: 2rem 0;
-    max-width: 986px;
     padding-inline: 2rem;
 }
 
@@ -80,7 +81,7 @@ main h1 {
 main .search {
     margin-bottom: 2rem;
     text-align: center;
-    min-width: 70dvw;
+    padding-inline: 5rem;
 }
 
 .search > input, .new__note--heading input, .new__note--body {
@@ -119,6 +120,7 @@ main .notes--list {
     display: grid;
     grid-template-columns: 1fr;
     gap: 1rem;
+    min-width: 45dvw;
 }
 
 .notes__card, .new__note {
@@ -136,6 +138,10 @@ main .notes--list {
     margin-bottom: 1rem;
     display: flex;
     justify-content: space-between;
+}
+
+.new__note--heading div {
+    width: 100%;
 }
 
 .notes__heading h2 a {

@@ -15,7 +15,7 @@ function NotesList({ notes, keyword, isArchived = false }) {
   }
   return (
     <>
-      {filteredNotes.map((note) => (
+      {filteredNotes.reverse().map((note) => (
         <NotesItem key={note.id} notes={note} />
       ))}
     </>

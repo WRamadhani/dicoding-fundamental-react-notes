@@ -42,7 +42,7 @@ class AddNote extends React.Component {
 
   render() {
     return (
-      <div className="new__note">
+      <form className="new__note">
         <div className="new__note--heading">
           <div>
             <p>{showFormattedDate(new Date())}</p>
@@ -73,7 +73,7 @@ class AddNote extends React.Component {
             isDisable={this.errorHandler().status}
           />
         </div>
-      </div>
+      </form>
     );
   }
 }
