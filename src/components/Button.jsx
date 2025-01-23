@@ -1,43 +1,24 @@
 import PropTypes from "prop-types";
-import { useNavigate } from "react-router-dom";
 
-function Button({
-  label,
-  type,
-  icon,
-  isSubmit = false,
-  funcParams,
-  onClick,
-  redirect = "",
-  isDisable = false,
-}) {
-  const navigate = useNavigate();
+function Button({ label, type, isButton = true, icon, onClick }) {
   return (
     <button
-      className={type}
-      type={isSubmit ? "submit" : "button"}
-      onClick={() => {
-        onClick(funcParams);
-        navigate(redirect);
-        // console.log("clicked");
-      }}
-      disabled={isDisable}
+      className={"btn " + type}
+      type={isButton ? "button" : "submit"}
+      onClick={onClick}
     >
-      {icon}
-      <span>{label}</span>
+      {icon ? <span className={"btn--icon"}>{icon}</span> : ''}
+      {label}
     </button>
   );
 }
 
 Button.propTypes = {
   label: PropTypes.string.isRequired,
-  type: PropTypes.string.isRequired,
-  icon: PropTypes.element,
-  isSubmit: PropTypes.bool,
-  funcParams: PropTypes.object,
+  type: PropTypes.string,
+  isButton: PropTypes.bool,
+  icon: PropTypes.node,
   onClick: PropTypes.func,
-  redirect: PropTypes.string,
-  isDisable: PropTypes.bool,
 };
 
 export default Button;

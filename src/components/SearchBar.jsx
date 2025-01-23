@@ -1,23 +1,14 @@
-import PropTypes from "prop-types";
+import Input from "./Input";
 
-function SearchBar({ keyword, keywordChange }) {
+function SearchBar({ keyword, onKeywordChange }) {
   return (
-    <section className="search">
-      <input
-        value={keyword}
-        onChange={(event) => {
-          keywordChange(event.target.value);
-        }}
-        type="text"
-        placeholder="Cari catatan berdasarkan judul..."
-      />
-    </section>
+    <Input
+      name={"search"}
+      placeholder={"Cari Catatan berdasarkan judul..."}
+      value={keyword}
+      onChange={(event) => onKeywordChange(event.target.value)}
+    />
   );
 }
-
-SearchBar.propTypes = {
-  keyword: PropTypes.string.isRequired,
-  keywordChange: PropTypes.func.isRequired,
-};
 
 export default SearchBar;

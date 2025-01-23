@@ -1,32 +1,23 @@
-import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
-import parser from "html-react-parser";
+import Panel from "../components/Panel";
 
-import { showFormattedDate } from "../utils";
-
-function NoteCard({ notes, hoverable = false, children }) {
+function NoteCard({ children, notes }) {
   return (
-    <div className={hoverable ? "notes__card hoverable" : "notes__card"}>
-      <div className="notes__heading">
-        <div>
-          <h2>
+    <Panel>
+      <div className="note__card">
+        <div className="note__heading">
+          <h3>
             <Link to={`/notes/${notes.id}`}>{notes.title}</Link>
-          </h2>
-          <p>{showFormattedDate(notes.createdAt)}</p>
+          </h3>
+          <p>{notes.createdAt}</p>
         </div>
+        <div className="note__body">
+          <p>{notes.body}</p>
+        </div>
+        <div className="note__action">{children}</div>
       </div>
-      <div className="notes__body">
-        <p>{parser(notes.body)}</p>
-      </div>
-      {children}
-    </div>
+    </Panel>
   );
 }
-
-NoteCard.propTypes = {
-  notes: PropTypes.object.isRequired,
-  hoverable: PropTypes.bool,
-  children: PropTypes.node,
-};
 
 export default NoteCard;
