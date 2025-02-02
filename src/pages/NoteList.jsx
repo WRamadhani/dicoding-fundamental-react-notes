@@ -5,7 +5,6 @@ import LocaleContext from "../context/LocaleContext";
 import MessageContext from "../context/MessageContext";
 import __Text from "../utils/enTranslation";
 
-import Button from "../components/Button";
 import { AddNoteIcon } from "../components/Icon";
 import PageHeading from "../components/PageHeading";
 import Message from "../components/Message";
@@ -15,12 +14,12 @@ import { Link } from "react-router-dom";
 
 function NoteList({ notes }) {
   const { locale } = useContext(LocaleContext);
-  const { message, setDisplayMessage, showMessage, toggleShowMessage } =
+  const { message, showMessage, toggleShowMessage } =
     useContext(MessageContext);
   //   if (!notes.length) return console.log("Kosong");
 
   if (!notes.length) return <NotFound message={"Note Not Found"} />;
-  console.log(message);
+
   return (
     <>
       {showMessage ? (

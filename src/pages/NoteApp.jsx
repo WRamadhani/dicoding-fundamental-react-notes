@@ -40,10 +40,6 @@ function NoteApp({ isArchived = false }) {
     });
   }, []);
 
-  // if (loading) {
-  //   return <h1>asd</h1>;
-  // }
-
   return (
     <>
       <div className="main__title">
@@ -54,7 +50,7 @@ function NoteApp({ isArchived = false }) {
         </h1>
         <SearchBar keyword={keyword} onKeywordChange={onKeywordChangeHandler} />
       </div>
-      {loading ? <Skeleton total={5} /> : <NoteList notes={filteredNotes} />}
+      {loading ? <Skeleton repeat={5} /> : <NoteList notes={filteredNotes} />}
     </>
   );
 }

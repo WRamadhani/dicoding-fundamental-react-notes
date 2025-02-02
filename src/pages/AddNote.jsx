@@ -7,7 +7,6 @@ import useInput from "../hooks/useInput";
 
 import Input from "../components/Input";
 import Button from "../components/Button";
-import Message from "../components/Message";
 import PageHeading from "../components/PageHeading";
 import Panel from "../components/Panel";
 
@@ -18,16 +17,12 @@ function AddNote() {
     "required|min:3|max:50"
   );
   const [body, setBody] = useState("");
-  const { message, setDisplayMessage, showMessage, toggleShowMessage } =
-    useContext(MessageContext);
+  const { setDisplayMessage, toggleShowMessage } = useContext(MessageContext);
 
   const decodeHtml = (html) => {
     let txt = document.createElement("textarea");
     txt.innerHTML = html;
     return txt.value;
-    // return txt.value
-    //   .replace(new RegExp(div, "g"), "<p>")
-    //   .replace(new RegExp(divClose, "g"), "</p>");
   };
 
   const onBodyInputHandler = (event) => {

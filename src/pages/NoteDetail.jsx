@@ -8,7 +8,7 @@ import LocaleContext from "../context/LocaleContext";
 
 import Button from "../components/Button";
 import NoteCard from "../components/NoteCard";
-import Panel from "../components/Panel";
+import Skeleton from "../components/Skeleton";
 import { DeleteIcon, ArchiveIcon, UnarchiveIcon } from "../components/Icon";
 import Message from "../components/Message";
 
@@ -72,9 +72,9 @@ function NoteDetail() {
   }
 
   if (load) {
-    return <Panel>Loading...</Panel>;
+    return <Skeleton repeat={1} />;
   }
-  console.log(note);
+
   return (
     <div className="note__detail">
       {showMessage ? (
