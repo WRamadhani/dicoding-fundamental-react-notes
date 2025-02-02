@@ -116,7 +116,28 @@ function Layout() {
           </Routes>
         </main>
       </MessageContext.Provider>
-      <footer></footer>
+      <footer>
+        <p>Dicoding - Belajar Fundamental Aplikasi Web dengan React</p>
+        <p>Membangun Single Page Application menggunakan React</p>
+        <div>
+          <p>
+            <a
+              href="https://github.com/WRamadhani/dicoding-fundamental-react-notes"
+              target="_blank"
+            >
+              Github
+            </a>
+          </p>
+          <p>
+            <a
+              href="https://www.linkedin.com/in/wahyu-ramadhani"
+              target="_blank"
+            >
+              Wahyu Ramadhani
+            </a>
+          </p>
+        </div>
+      </footer>
     </LocaleContext.Provider>
   );
 }

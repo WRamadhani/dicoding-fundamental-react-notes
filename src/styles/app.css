@@ -387,3 +387,24 @@
 .nav--toggle {
     display: none;
 }
+
+footer {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 2rem;
+    margin-top: 2rem;
+    border-top: 2px solid var(--background-3);
+    align-items: center;
+    gap: .5rem;
+    text-align: center;
+    font-size: .9rem;
+}
+
+footer div {
+    display: flex;
+    gap: 1rem;
+}
+
+footer div a {
+    padding: 1rem;
+}
