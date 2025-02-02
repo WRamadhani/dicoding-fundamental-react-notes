@@ -1,70 +1,131 @@
 import { NavLink } from "react-router-dom";
-import { useContext } from "react";
+import { useContext, useState, useEffect } from "react";
+import PropTypes from "prop-types";
 
 import LocaleContext from "../context/LocaleContext";
 import __Text from "../utils/enTranslation";
 
-import { MenuIcon } from "./Icon";
+import { MenuIcon, CloseIcon, TranslateIcon, SunIcon, MoonIcon } from "./Icon";
 
-function Navigation() {
-  const { locale } = useContext(LocaleContext);
+function Navigation({ token, onLogout }) {
+  const [menuIcon, setMenuIcon] = useState(true);
+  const [theme, setTheme] = useState("dark");
+  const { locale, toggleLocale } = useContext(LocaleContext);
+
+  const toggleTheme = () => {
+    setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
+    console.log(theme);
+  };
+
+  useEffect(() => {
+    if (theme === "dark") {
+      document.documentElement.setAttribute("data-theme", "dark");
+    } else {
+      document.documentElement.setAttribute("data-theme", "light");
+    }
+  }, [theme]);
+
+  const toggleHandler = () => {
+    const collapse = document.querySelector(".collapse");
+
+    collapse.classList.toggle("show");
+    setMenuIcon(!menuIcon);
+  };
 
   return (
     <header className="header">
       <nav className="nav">
         <div>
-          <ul>
+          {token ? (
+            <>
+              <ul>
+                <li>
+                  <NavLink className={"nav__link"} to={"/"}>
+                    {__Text(locale, "Home")}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className={"nav__link"} to={"/archive"}>
+                    {__Text(locale, "Archive")}
+                  </NavLink>
+                </li>
+              </ul>
+
+              <button
+                type="button"
+                className={"nav__button"}
+                onClick={toggleHandler}
+              >
+                {menuIcon ? <MenuIcon /> : <CloseIcon />}
+              </button>
+            </>
+          ) : (
+            <>
+              <h1 style={{ marginBottom: "1rem" }}>
+                {__Text(locale, "Note App")}
+              </h1>
+              <button
+                type="button"
+                className={"nav__button"}
+                onClick={toggleHandler}
+              >
+                {menuIcon ? <MenuIcon /> : <CloseIcon />}
+              </button>
+            </>
+          )}
+        </div>
+
+        <div className="collapse">
+          <ul className="nav--extra">
             <li>
-              <NavLink to={"/"}>{__Text(locale, "Home")}</NavLink>
+              <button className={"nav__link"} onClick={toggleLocale}>
+                <span>{locale}</span>
+                <span>
+                  <TranslateIcon />
+                </span>
+              </button>
             </li>
             <li>
-              <NavLink to={"/arsip"}>{__Text(locale, "Archive")}</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/notes/create"}>
-                {__Text(locale, "Add Note")}
-              </NavLink>
+              <button className={"nav__link"} onClick={toggleTheme}>
+                <span>{theme === "dark" ? <SunIcon /> : <MoonIcon />}</span>
+              </button>
             </li>
           </ul>
-        </div>
-        <div>
           <ul>
-            <li>
-              <NavLink to={"/register"}>{__Text(locale, "Sign Up")}</NavLink>
-            </li>
-            <li>
-              <NavLink to={"/login"}>{__Text(locale, "Log In")}</NavLink>
-            </li>
+            {token ? (
+              <li>
+                <button
+                  className={"nav__link"}
+                  type="button"
+                  onClick={onLogout}
+                >
+                  {__Text(locale, "Log Out")}
+                </button>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <NavLink className={"nav__link"} to={"/register"}>
+                    {__Text(locale, "Sign Up")}
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink className={"nav__link"} to={token ? "/login" : "/"}>
+                    {__Text(locale, "Sign In")}
+                  </NavLink>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </nav>
     </header>
-    // <nav>
-    //   <ul>
-    //     <li>{__Text(locale, "Aplikasi Catatan")}</li>
-    //     <li>
-    //       <Link to={"/"}>{__Text(locale, "Home")}</Link>
-    //     </li>
-    //     <li>
-    //       <Link to={"/arsip"}>{__Text(locale, "Arsip")}</Link>
-    //     </li>
-    //     <li>
-    //       <Link to={"/notes/create"}>{__Text(locale, "Tambah Catatan")}</Link>
-    //     </li>
-    //   </ul>
-
-    //   <div>
-    //     <ul>
-    //       <li>
-    //         <Link to={"/register"}>{__Text(locale, "Daftar")}</Link>
-    //       </li>
-    //       <li>
-    //         <Link to={"/login"}>{__Text(locale, "Masuk")}</Link>
-    //       </li>
-    //     </ul>
-    //   </div>
-    // </nav>
   );
 }
+
+Navigation.propTypes = {
+  token: PropTypes.string,
+  onLogout: PropTypes.func.isRequired,
+};
 
 export default Navigation;

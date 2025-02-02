@@ -3,7 +3,6 @@ import { BrowserRouter } from "react-router-dom";
 
 // import App from "./App";
 // import NotesAppWrapper from "./pages/NotesApp";
-import Test from "./pages/Test";
 import Layout from "./pages/Layout";
 
 import "./styles/reset.css";

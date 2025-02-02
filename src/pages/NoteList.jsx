@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import PropTypes from "prop-types";
 
 import LocaleContext from "../context/LocaleContext";
@@ -10,51 +10,50 @@ import { AddNoteIcon } from "../components/Icon";
 import PageHeading from "../components/PageHeading";
 import Message from "../components/Message";
 import NoteCard from "../components/NoteCard";
+import NotFound from "./NotFound";
+import { Link } from "react-router-dom";
 
 function NoteList({ notes }) {
   const { locale } = useContext(LocaleContext);
   const { message, setDisplayMessage, showMessage, toggleShowMessage } =
     useContext(MessageContext);
-  console.log(message);
   //   if (!notes.length) return console.log("Kosong");
 
+  if (!notes.length) return <NotFound message={"Note Not Found"} />;
+  console.log(message);
   return (
     <>
       {showMessage ? (
         <Message
           status={message.status}
-          message={message.message}
+          message={__Text(locale, message.message)}
           onClick={() => toggleShowMessage()}
         />
       ) : null}
-      <div className="heading--container">
-        <PageHeading
-          heading={!notes[0].archived ? "Active Notes" : "Archived Notes"}
-        />
-        <Button
-          type={"primary"}
-          icon={<AddNoteIcon />}
-          label={__Text(locale, "Add Note")}
-          onClick={() => {
-            setDisplayMessage({
-              status: "success",
-              message: "Email already use",
-            });
-            toggleShowMessage();
-          }}
-        />
+      <PageHeading
+        align={"right"}
+        heading={!notes[0].archived ? "Active Notes" : "Archived Notes"}
+      >
+        <Link to={"/notes/create"} className="btn primary">
+          <span className="btn--icon">
+            <AddNoteIcon />
+          </span>
+          <span className="btn--label mobile">
+            {__Text(locale, "Add Note")}
+          </span>
+        </Link>
+      </PageHeading>
+      <div className="note__list">
+        {notes.map((note) => (
+          <NoteCard key={note.id} notes={note} />
+        ))}
       </div>
-      {notes.map((note) => (
-        <NoteCard key={note.id} notes={note} />
-      ))}
     </>
   );
-
-  //   return console.log(notes);
 }
 
 NoteList.propTypes = {
-  notes: PropTypes.array.isRequired,
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default NoteList;

@@ -1,14 +1,30 @@
+import { useContext } from "react";
 import PropTypes from "prop-types";
 
-function Button({ label, type, isButton = true, icon, onClick }) {
+import LocaleContext from "../context/LocaleContext";
+import __Text from "../utils/enTranslation";
+
+function Button({
+  label,
+  type = "",
+  isMobile = false,
+  isSubmit = false,
+  isDisabled = false,
+  icon,
+  onClick,
+}) {
+  const { locale } = useContext(LocaleContext);
   return (
     <button
       className={"btn " + type}
-      type={isButton ? "button" : "submit"}
+      type={!isSubmit ? "button" : "submit"}
       onClick={onClick}
+      disabled={isDisabled}
     >
-      {icon ? <span className={"btn--icon"}>{icon}</span> : ''}
-      {label}
+      {icon ? <span className={"btn--icon"}>{icon}</span> : ""}
+      <span className={isMobile ? "btn--label mobile" : "btn--label"}>
+        {__Text(locale, label)}
+      </span>
     </button>
   );
 }
@@ -16,7 +32,9 @@ function Button({ label, type, isButton = true, icon, onClick }) {
 Button.propTypes = {
   label: PropTypes.string.isRequired,
   type: PropTypes.string,
-  isButton: PropTypes.bool,
+  isSubmit: PropTypes.bool,
+  isMobile: PropTypes.bool,
+  isDisabled: PropTypes.bool,
   icon: PropTypes.node,
   onClick: PropTypes.func,
 };

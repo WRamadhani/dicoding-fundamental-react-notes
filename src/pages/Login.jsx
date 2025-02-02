@@ -3,18 +3,18 @@ import { useContext } from "react";
 import PropTypes from "prop-types";
 
 import MessageContext from "../context/MessageContext";
-import { register, login } from "../utils/api";
-import useInput from "../hooks/useInput";
+import { login } from "../utils/api";
 
+import Panel from "../components/Panel";
 import Input from "../components/Input";
 import Button from "../components/Button";
 import Message from "../components/Message";
-import Panel from "../components/Panel";
 import PageHeading from "../components/PageHeading";
+import useInput from "../hooks/useInput";
 
-function Register({ onSuccess }) {
+function Login({ onSuccess }) {
   const navigate = useNavigate();
-  const [nameError, name, onNameChange] = useInput("Name", "required|min:3");
+  // const { formInput, onChangeHandler } = useContext(FormInputContext);
   const [emailError, email, onEmailChange] = useInput(
     "Email",
     "required|email"
@@ -26,8 +26,8 @@ function Register({ onSuccess }) {
   const { message, setDisplayMessage, showMessage, toggleShowMessage } =
     useContext(MessageContext);
 
-  async function onRegister(name, email, password) {
-    await register({ name, email, password })
+  async function onLogin(email, password) {
+    await login({ email, password })
       .then((response) => {
         setDisplayMessage({
           status: response.status,
@@ -38,25 +38,21 @@ function Register({ onSuccess }) {
       })
       .then((response) => {
         if (response.status === "success") {
-          login({ email: email, password: password }).then((response) => {
-            if (response.status === "success") {
-              onSuccess(response.data.accessToken);
-              navigate("/");
-            }
-          });
+          onSuccess(response.data.accessToken);
+          navigate("/");
         }
       });
   }
 
-  function registerHandler(event) {
+  function loginHandler(event) {
     event.preventDefault();
-    onRegister(name, email, password);
+    onLogin(email, password);
   }
 
   return (
     <div style={{ paddingInline: "2rem" }}>
       <Panel>
-        <PageHeading align="center" heading="Sign Up" />
+        <PageHeading align="center" heading="Sign In" />
         {showMessage ? (
           <Message
             status={message.status}
@@ -64,37 +60,31 @@ function Register({ onSuccess }) {
             onClick={() => toggleShowMessage()}
           />
         ) : null}
-        <form className="form" onSubmit={registerHandler}>
+        <form className="form" onSubmit={loginHandler}>
           <Input
-            name={"name"}
-            placeholder={"nama"}
-            value={name || ""}
-            error={nameError}
-            isRequired={true}
-            onChange={onNameChange}
-          />
-          <Input
-            type={"email"}
+            label={"Email"}
             name={"email"}
-            placeholder={"email"}
+            type="email"
+            isRequired={true}
+            placeholder={"acme@example.com"}
             value={email || ""}
             error={emailError}
-            isRequired={true}
             onChange={onEmailChange}
           />
           <Input
-            type={"password"}
+            label={"Password"}
             name={"password"}
-            placeholder={"password"}
+            type="password"
+            isRequired={true}
+            placeholder={"12345678"}
             value={password || ""}
             error={passwordError}
-            isRequired={true}
             onChange={onPasswordChange}
           />
           <Button
             type={"primary"}
-            label={"Sign Up"}
-            isDisabled={nameError || emailError || passwordError ? true : false}
+            label={"Sign In"}
+            isDisabled={emailError || passwordError ? true : false}
             isSubmit={true}
           />
         </form>
@@ -103,8 +93,8 @@ function Register({ onSuccess }) {
   );
 }
 
-Register.propTypes = {
+Login.propTypes = {
   onSuccess: PropTypes.func.isRequired,
 };
 
-export default Register;
+export default Login;
